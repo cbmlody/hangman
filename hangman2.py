@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-__author__:  "Tomasz Budkiewicz, Cezary Broś"
-__version__: "1.0.3"
+__author__= "Tomasz Budkiewicz, Cezary Broś"
+__version__= "1.0.3"
 
 import random
 import time
