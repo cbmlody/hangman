@@ -8,6 +8,7 @@ __version__ = "1.0.3"
 
 GUESS_TYPE = ['letter', 'l', 'w', 'word']
 
+
 def random_capital(cap_list):
     '''takes list of strings, chooses random string and returns it as list'''
     index = random.randrange(0, len(cap_list))
@@ -63,11 +64,9 @@ def guess(pl_answer, capital, pl_lifes, bad_choice, count):
     guess = input("\n(l)etter or (w)ord? ")
     if guess in GUESS_TYPE:
         if guess == 'letter' or guess == 'l':
-            pl_answer, pl_lifes, bad_choice, count = check_letter(capital,  # assign returned values to variables
-              pl_answer, pl_lifes, bad_choice, count)
+            pl_answer, pl_lifes, bad_choice, count = check_letter(capital, pl_answer, pl_lifes, bad_choice, count)
         elif guess == 'word' or guess == 'w':
-            pl_answer, pl_lifes, count = check_word(capital, pl_answer,
-              pl_lifes, count)
+            pl_answer, pl_lifes, count = check_word(capital, pl_answer, pl_lifes, count)
         print("\nBad choices: %s " % bad_choice)
     else:
         print("Wrong input, try again.\n")
@@ -114,20 +113,17 @@ def main():
         print(' '.join(convert_to_dash(answer, capital)))
 
         while answer != capital and lifes > 0:
-            answer, lifes, bad_choice, count = guess(answer, capital, lifes,
-              bad_choice, count)
+            answer, lifes, bad_choice, count = guess(answer, capital, lifes, bad_choice, count)
             print(' '.join(answer))
             if lifes <= 0:
                 end_time = int(time.time() - start)
                 print("\nCorrect answer is: " + ''.join(capital))
-                print("\nGame Over, just like our world!\nYour time was: %s sec."
-                  % end_time)
+                print("\nGame Over, just like our world!\nYour time was: %s sec." % end_time)
                 again = try_again(again)
             elif answer == capital:
                 end_time = int(time.time() - start)
-                print("\nYou are winner and our world saviour!!!\n"
-                  + "Your time was: ", int(end_time),
-                  " seconds and u guessed in " + str(count) + " tries")
+                print("\nYou are winner and our world saviour!!!\n" + "Your time was: ", int(end_time), " seconds\
+                      and you guessed in " + str(count) + " tries")
                 save_score(count, capital, end_time)
                 score_table = show_scores('scores.txt')
                 print('\n*** HIGH SCORES ***\n')
