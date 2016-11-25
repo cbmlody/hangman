@@ -124,7 +124,7 @@ def main():
         bad_choice = []
         start = time.time()
         capital = random_capital(capitals_list)
-        print(''.join(capital))  # kontrol!
+        # print(''.join(capital)) kontrol!
         print(' '.join(convert_to_dash(answer, capital)))
 
         while answer != capital and lifes > 0:
