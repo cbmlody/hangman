@@ -88,19 +88,34 @@ def save_score(count, capital, end_time):  # save scores as csv
     '''adds and saves user score to txt file'''
     name = input("\nWhat is your name?: ")
     date_time = time.strftime('%d/%m/%Y')
-    score_list = [name, date_time, ''.join(capital), count, end_time]
+    total_score = int(1/(count * end_time)*10000*len(capital))
+    player_score = [name, date_time, ''.join(capital), count, end_time, total_score]
     with open('scores.txt', 'a') as scores:
-        scores.write(score_list)
+        scores.write('{},{},{},{},{},{}\n'.format(*player_score))
 
 
-def show_scores(file):  # read scores from csv
-    with open(file, 'r+') as scores:
+def show_scores(file):
+    with open(file, 'r') as scores:
         score_table = scores.read().splitlines()
+    score_table = [row.split(',') for row in score_table]
     return score_table
+
+
+def scores_print():
+    new_l = sorted(show_scores('scores.txt'), key=lambda x: int(x[5]), reverse=True)
+    score_table = new_l[:10]
+    print(' '*15 + '*** HIGH SCORES ***\n')
+    time.sleep(0.5)
+    print('{:<15}{:>45}'.format('   PLAYER', 'SCORE'))
+    for x, y in enumerate(score_table, 1):
+        print('{:>2}.'.format(x), '{:<12}| {:10} | {:^12} |{:^3}| {:>3}s|{:>5}'.format(*y))
+        time.sleep(0.2)
 
 
 def main():
     '''main loop of hangman game'''
+    with open("capitals.txt", "r") as capitals:
+        capitals_list = capitals.read().splitlines()
     again = 1
     while again:
         count = 0
@@ -122,18 +137,12 @@ def main():
                 again = try_again(again)
             elif answer == capital:
                 end_time = int(time.time() - start)
-                print("\nYou are winner and our world saviour!!!\n" + "Your time was: ", int(end_time), " seconds\
-                      and you guessed in " + str(count) + " tries")
+                print("\nYou are winner and our world saviour!!!\n")
+                print("Your time was: ", int(end_time), " seconds and you guessed in " + str(count) + " tries")
                 save_score(count, capital, end_time)
-                score_table = show_scores('scores.txt')
-                print('\n*** HIGH SCORES ***\n')
-                time.sleep(0.8)
-                for x, y in enumerate(score_table, 1):
-                    print(x, ' | '.join(y))
+                scores_print()
                 again = try_again(again)
 
 
 if __name__ == '__main__':
-    with open("capitals.txt", "r") as capitals:
-        capitals_list = capitals.read().splitlines()
     main()
